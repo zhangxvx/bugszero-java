@@ -6,34 +6,24 @@ import java.util.Random;
 
 public class GameRunner {
 
-	private static boolean notAWinner;
+    public static void main(String[] args) {
+        Random rand = new Random();
+        playGame(rand);
+    }
 
-	public static void main(String[] args) {
-		Random rand = new Random();
-		playGame(rand);
+    public static void playGame(Random rand) {
+        Game game = newGameWithSamplePlayers();
+        boolean notAWinner;
+        do {
+            notAWinner = game.playARound(new Dice(rand));
+        } while (notAWinner);
+    }
 
-	}
-
-	public static void playGame(Random rand) {
-		Game aGame = new Game();
-
-		aGame.add("Chet");
-		aGame.add("Pat");
-		aGame.add("Sue");
-
-
-		do {
-
-			aGame.roll(rand.nextInt(5) + 1);
-
-			if (rand.nextInt(9) == 7) {
-				notAWinner = aGame.wrongAnswer();
-			} else {
-				notAWinner = aGame.wasCorrectlyAnswered();
-			}
-
-
-
-		} while (notAWinner);
-	}
+    private static Game newGameWithSamplePlayers() {
+        Players players = new Players();
+        players.add("Chet");
+        players.add("Pat");
+        players.add("Sue");
+        return new Game(players);
+    }
 }
